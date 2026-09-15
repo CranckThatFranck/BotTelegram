@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+"""
+agent-ask: Utilitário CLI interativo para perguntas ao usuário via Telegram.
+Bloqueia a execução, envia a dúvida (com opções ou texto livre) e imprime a resposta
+recebida na saída padrão (stdout).
+
+Uso:
+  agent-ask "Qual banco de dados devemos utilizar?" --options "Postgres,MySQL,SQLite"
+  agent-ask "Qual a URL do ambiente de homologação?"
+  ESCOLHA=$(agent-ask "Deseja continuar com o deploy?" --options "Sim,Não")
+"""
+
+import argparse
+import sys
+from pathlib import Path
+
+# Adiciona a raiz do projeto ao sys.path para permitir imports de bridge.*
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from bridge.config import config
+from bridge.interactive import ask_user_telegram, TelegramTimeoutError
+from bridge.telegram_client import TelegramAPIError
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Envia uma pergunta interativa para o Telegram e aguarda a resposta do usuário."
+    )
+    parser.add_argument(
+        "question",
+        help="Pergunta ou dúvida a ser enviada ao usuário.",
+    )
+    parser.add_argument(
+        "-o",
+        "--options",
+        help="Opções separadas por vírgula para botões de resposta rápida (ex: 'Sim,Não,Cancelar').",
+    )
+    parser.add_argument(
+        "-t",
+        "--timeout",
+        type=int,
+        default=None,
+        help="Tempo limite em segundos para aguardar a resposta (padrão: definido no .env ou 300s).",
+    )
+    parser.add_argument(
+        "--title",
+        default="DÚVIDA DO AGENTE",
+        help="Título da mensagem no Telegram.",
+    )
+
+    args = parser.parse_args()
+
+    options_list = None
+    if args.options:
+        options_list = [opt.strip() for opt in args.options.split(",") if opt.strip()]
+
+    try:
+        config.validate_or_raise()
+        # Envia a pergunta e bloqueia até receber a resposta
+        response = ask_user_telegram(
+            question=args.question,
+            options=options_list,
+            timeout=args.timeout,
+            title=args.title,
+        )
+        # Imprime a resposta pura na saída padrão (para fácil captura por scripts)
+        sys.stdout.write(response)
+        sys.stdout.flush()
+    except TelegramTimeoutError as e:
+        sys.stderr.write(f"\nagent-ask: {e}\n")
+        sys.exit(124)  # Código de saída padrão para timeout
+    except TelegramAPIError as e:
+        sys.stderr.write(f"\nagent-ask: Erro na API do Telegram: {e}\n")
+        sys.exit(1)
+    except Exception as e:
+        sys.stderr.write(f"\nagent-ask: {e}\n")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

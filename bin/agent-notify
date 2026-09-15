@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+"""
+agent-notify: Utilitário CLI universal para notificação via Telegram.
+Pode ser chamado por qualquer agente (Antigravity, Gemini CLI, Copilot, Codex, Bash, Makefile).
+
+Uso:
+  agent-notify "Mensagem a ser enviada"
+  agent-notify "Testes finais concluídos!" --level milestone
+  agent-notify "Erro na compilação" --level error --title "BUILD FAILED"
+"""
+
+import argparse
+import sys
+from pathlib import Path
+
+# Adiciona a raiz do projeto ao sys.path para permitir imports de bridge.*
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from bridge.config import config
+from bridge.telegram_client import TelegramClient, TelegramAPIError
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Envia notificações de status e marcos para o Telegram."
+    )
+    parser.add_argument(
+        "message",
+        nargs="?",
+        help="Texto da mensagem (ou lido da stdin se omitido).",
+    )
+    parser.add_argument(
+        "-l",
+        "--level",
+        default="info",
+        choices=["info", "success", "warning", "error", "milestone"],
+        help="Nível de prioridade/ícone da mensagem (padrão: info).",
+    )
+    parser.add_argument(
+        "-t",
+        "--title",
+        default=None,
+        help="Título personalizado do cabeçalho da mensagem.",
+    )
+
+    args = parser.parse_args()
+
+    message_text = args.message
+    if not message_text:
+        # Se não foi passado como argumento posicional, lê do pipe (stdin)
+        if not sys.stdin.isatty():
+            message_text = sys.stdin.read().strip()
+
+    if not message_text:
+        parser.error("Nenhuma mensagem informada. Forneça como argumento ou via stdin.")
+
+    try:
+        config.validate_or_raise()
+        client = TelegramClient()
+        client.send_message(
+            text=message_text,
+            level=args.level,
+            title=args.title,
+        )
+    except TelegramAPIError as e:
+        sys.stderr.write(f"agent-notify: Erro ao enviar mensagem para o Telegram: {e}\n")
+        sys.exit(1)
+    except Exception as e:
+        sys.stderr.write(f"agent-notify: {e}\n")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

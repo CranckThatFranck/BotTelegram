@@ -1,0 +1,18 @@
+# Credenciais e ambientes locais
+.env
+*.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Testes
+.coverage
+htmlcov/
+.pytest_cache/
