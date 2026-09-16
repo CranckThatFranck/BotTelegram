@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Hook de término de execução do Antigravity (Evento 'Stop').
-Intercepta a finalização do loop do agente e avisa o Francisco no Telegram:
+Intercepta a finalização do loop do agente e avisa o usuário no Telegram:
 - Se concluiu com sucesso
 - Se parou por erro ou estouro de passos
 """

@@ -2,7 +2,7 @@
 
 ## 1. Escolha da Abordagem: BotFather vs. Conta com Telefone
 
-Você mencionou que possui um **número de telefone sobressalente**. Vamos avaliar os dois caminhos técnicos:
+Você pode avaliar dois caminhos técnicos para configurar o TeleAgent Bridge:
 
 | Critério | Opção A: Bot Oficial (@BotFather) ⭐️ *(Recomendado)* | Opção B: Conta de Usuário (MTProto / Telethon) |
 | :--- | :--- | :--- |
@@ -10,11 +10,11 @@ Você mencionou que possui um **número de telefone sobressalente**. Vamos avali
 | **Risco de Bloqueio** | Zero (API oficial do Telegram para bots) | Risco de flag de automação por spam da conta |
 | **Botões Interativos** | Nativo (`InlineKeyboardMarkup` para clicar e responder) | Não suportado para mensagens de usuário |
 | **Complexidade** | Simples: apenas `TOKEN` e `CHAT_ID` | Exige API_ID, API_HASH, login SMS e sessão |
-| **Uso do Telefone Extra** | Pode ser usado para criar uma conta do Telegram dedicada para receber os alertas, separando da sua conta pessoal | O número é usado diretamente pelo bot |
+| **Uso do Telefone Extra** | Pode ser usado para criar uma conta do Telegram dedicada para receber os alertas | O número é usado diretamente pelo bot |
 
 > [!TIP]
 > **Recomendação Técnica**: Use a **Opção A (BotFather)**.  
-> Você pode usar o seu número de telefone extra para registrar uma conta no Telegram no seu celular/desktop dedicada exclusivamente ao seu laboratório de agentes, e o bot enviará as mensagens para ela!
+> O bot enviará as mensagens de forma leve e segura utilizando a API oficial.
 
 ---
 
@@ -26,8 +26,8 @@ Você mencionou que possui um **número de telefone sobressalente**. Vamos avali
    ```text
    /newbot
    ```
-3. Escolha um nome de exibição para o bot (exemplo: `Juca Agent Alerter` ou `DevOps Notify`).
-4. Escolha um username único que termine em `bot` (exemplo: `francisco_devops_bot` ou `juca_agent_bot`).
+3. Escolha um nome de exibição para o bot (exemplo: `Agent Alerter` ou `DevOps Notify`).
+4. Escolha um username único que termine em `bot` (exemplo: `meu_devops_bot` ou `meu_agent_bot`).
 5. O BotFather fornecerá um **HTTP API Token**, no formato:
    ```text
    1234567890:ABCdefGHIjklMNOpqrSTUvwxYZ_1234567
@@ -51,7 +51,7 @@ No JSON retornado, localize o campo `"id"` dentro de `"from"` ou `"chat"`:
 ```json
 "chat": {
   "id": 987654321,
-  "first_name": "Francisco",
+  "first_name": "Usuario",
   "type": "private"
 }
 ```
@@ -62,9 +62,9 @@ Envie uma mensagem para o bot **`@userinfobot`** no Telegram. Ele responderá im
 ---
 
 ### Passo 3: Configurar o arquivo `.env` do Projeto
-No diretório raiz do projeto:
+No diretório raiz do projeto, configure as credenciais:
 ```bash
-cd /home/francisco/Documentos/Projetos/BotTelegram
+# Navegue até a raiz do projeto e crie o .env
 cp .env.example .env
 chmod 600 .env
 ```

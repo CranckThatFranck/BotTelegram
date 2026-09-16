@@ -5,8 +5,8 @@ Este documento define o roteiro fase a fase para a execução agêntica da cria�
 ---
 
 ## 🎯 Metas do Projeto
-1. **Ponte de Notificação Ultraleve**: Notificar marcos históricos, início de testes e conclusão de projetos com zero impacto no hardware do Gateway NV55C.
-2. **Interação Bidirecional (Human-in-the-Loop)**: Permitir que agentes suspendam a execução para fazer perguntas críticas ao Francisco no Telegram e recebam sua resposta (texto ou botões) para prosseguir.
+1. **Ponte de Notificação Ultraleve**: Notificar marcos históricos, início de testes e conclusão de projetos com baixíssimo consumo de recursos.
+2. **Interação Bidirecional (Human-in-the-Loop)**: Permitir que agentes suspendam a execução para fazer perguntas críticas ao usuário no Telegram e recebam sua resposta (texto ou botões) para prosseguir.
 3. **Compatibilidade Universal**: Suporte a Antigravity (Hooks + MCP), GitHub Copilot (MCP + Tasks), Gemini CLI e scripts shell/Makefile.
 4. **Sem Dependências Pesadas**: Implementado em Python 3 standard library (`urllib.request`, `json`, `sys`, `socket`).
 
@@ -17,7 +17,7 @@ Este documento define o roteiro fase a fase para a execução agêntica da cria�
 ### Fase 1: Fundação do Repositório e Configurações
 - [x] Criar estrutura de documentação (`README.md`, `ARQUITETURA.md`, `TELEGRAM_SETUP.md`, `INTEGRACOES.md`, `PLANO_DE_EXECUCAO.md`).
 - [ ] Criar `.env.example` e módulo de configuração `bridge/config.py` para carregar tokens e chat IDs com validação estrita.
-- [ ] Criar `Makefile` para instalação facilitada dos executáveis no `~/.local/bin/` do Gaia OS.
+- [ ] Criar `Makefile` para instalação facilitada dos executáveis no sistema operacional.
 
 ### Fase 2: Cliente Telegram Leve (Core HTTP)
 - [ ] Implementar `bridge/telegram_client.py`:
@@ -61,5 +61,5 @@ Este documento define o roteiro fase a fase para a execução agêntica da cria�
   - Teste de formatação e sanitização de mensagens.
   - Teste de fluxo de perguntas e respostas (timeout, cancelamento, resposta válida).
   - Teste de protocolo JSON-RPC do MCP Server.
-- [ ] Smoke test real com as credenciais do bot do Francisco.
+- [ ] Smoke test real com as credenciais do bot do usuário.
 - [ ] Walkthrough final documentando a entrega.

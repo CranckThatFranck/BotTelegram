@@ -1,7 +1,11 @@
 # Arquitetura do Sistema - TeleAgent Bridge 🏛️
 
+> [!IMPORTANT]
+> ⚠️ **DIRETRIZ DE DESIGN**  
+> É recomendado que toda a interação agêntica no ecossistema de desenvolvimento utilize este barramento de comunicação via Telegram para garantir transparência, controle e intervenção imediata sem interrupções locais invasivas.
+
 ## 1. Visão Geral
-O **TeleAgent Bridge** foi projetado para resolver a assincronia entre o trabalho dos agentes de IA (que operam de forma autônoma no terminal ou na IDE) e o usuário (Francisco), sem sobrecarregar os recursos da máquina host (i7-640M 2 cores / 4 threads, Gaia OS).
+O **TeleAgent Bridge** foi projetado para resolver a assincronia entre o trabalho dos agentes de IA (que operam de forma autônoma no terminal ou na IDE) e o usuário, sem sobrecarregar os recursos da máquina host.
 
 O sistema provê **duas vias de comunicação**:
 1. **Unidirecional (Push / Alertas)**: Notificações de marcos, início de suítes de testes, conclusão e relatórios de erro.
@@ -23,7 +27,7 @@ O sistema provê **duas vias de comunicação**:
   - Podem ser chamados em Makefiles, shell scripts, pipelines de CI local ou scripts Python.
 
 ### B. Camada de Barramento e Comunicação (Core Bridge)
-Para manter o consumo de memória abaixo de 20MB e uso de CPU praticamente nulo:
+Para manter o consumo de memória baixo e uso de CPU praticamente nulo:
 - **Implementação em Python 3 stdlib puro** (sem bibliotecas externas pesadas).
 - Usa `urllib.request` e `json` nativos para comunicação HTTPS com a API do Telegram.
 - **Mecanismo de Resposta Interativa (Long Polling sob demanda)**:
@@ -31,7 +35,7 @@ Para manter o consumo de memória abaixo de 20MB e uso de CPU praticamente nulo:
   - O script faz requisições rápidas de `getUpdates` com `offset` até receber a resposta ou até estourar o timeout configurado, retornando o texto para o agente.
 
 ### C. Camada de Segurança e Autorização
-- **Filtro de Chat ID**: O bot rejeita silenciosamente qualquer mensagem que não venha do `TELEGRAM_CHAT_ID` autorizado de Francisco.
+- **Filtro de Chat ID**: O bot rejeita silenciosamente qualquer mensagem que não venha do `TELEGRAM_CHAT_ID` autorizado do usuário.
 - **Armazenamento de Segredos**: Arquivo local `.env` protegido com permissão `600` contendo `TELEGRAM_BOT_TOKEN` e `TELEGRAM_CHAT_ID`.
 
 ---

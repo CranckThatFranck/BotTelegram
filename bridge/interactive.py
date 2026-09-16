@@ -1,6 +1,6 @@
 """
 Módulo de interação bidirecional (Human-in-the-loop).
-Permite que agentes autônomos façam perguntas para Francisco no Telegram,
+Permite que agentes autônomos façam perguntas para o usuário no Telegram,
 exibam botões de clique rápido (inline keyboard) e recebam a resposta de volta
 para orientar a tomada de decisão.
 """

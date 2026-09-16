@@ -4,7 +4,7 @@
     "Stop": [
       {
         "type": "command",
-        "command": "/home/francisco/Documentos/Projetos/BotTelegram/hooks/on_stop_hook.py"
+        "command": "/caminho/para/BotTelegram/hooks/on_stop_hook.py"
       }
     ],
     "PostToolUse": [
@@ -13,7 +13,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/home/francisco/Documentos/Projetos/BotTelegram/hooks/on_error_hook.py"
+            "command": "/caminho/para/BotTelegram/hooks/on_error_hook.py"
           }
         ]
       }

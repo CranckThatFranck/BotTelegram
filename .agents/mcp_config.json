@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "teleagent": {
-      "command": "/home/francisco/Documentos/Projetos/BotTelegram/bridge/mcp_server.py",
-      "args": []
-    }
-  }
-}

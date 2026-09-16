@@ -21,13 +21,13 @@ from bridge.config import config
 from bridge.interactive import ask_user_telegram, TelegramTimeoutError
 from bridge.telegram_client import TelegramClient, TelegramAPIError
 
-
 MCP_TOOLS = [
     {
         "name": "telegram_notify",
         "description": (
-            "Envia uma notificação formatada para o Telegram do usuário (Francisco). "
-            "Use para comunicar marcos do projeto, início/fim de testes, avisos de build "
+            "Envia uma notificação formatada para o Telegram do usuário. "
+            "Use para comunicar marcos do projeto, início/fim de testes"
+        ),
             "ou conclusão de tarefas importantes."
         ),
         "inputSchema": {

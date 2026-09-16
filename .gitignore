@@ -1,6 +1,8 @@
 # Credenciais e ambientes locais
 .env
 *.env.local
+.vscode/
+.agents/
 
 # Python
 __pycache__/

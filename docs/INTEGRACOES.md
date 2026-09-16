@@ -1,5 +1,9 @@
 # Guia de Integração Multi-Agente 🔌
 
+> [!IMPORTANT]
+> ⚠️ **DIRETRIZ DE INTEGRAÇÃO**  
+> Todos os modelos e agentes ativos no sistema (Gemini CLI, Antigravity, VS Code, Codex) podem ser configurados para utilizar esta infraestrutura. A comunicação via Telegram é o canal de supervisão e decisão human-in-the-loop neste ecossistema.
+
 Este documento detalha como conectar o **TeleAgent Bridge** a cada uma das ferramentas do seu ecossistema de desenvolvimento.
 
 ---
@@ -16,7 +20,7 @@ Adicione ao seu `~/.gemini/config/mcp_config.json` ou no `.agents/mcp_config.jso
 {
   "mcpServers": {
     "teleagent": {
-      "command": "/home/francisco/Documentos/Projetos/BotTelegram/bridge/mcp_server.py",
+      "command": "/caminho/para/BotTelegram/bridge/mcp_server.py",
       "args": []
     }
   }
@@ -25,7 +29,7 @@ Adicione ao seu `~/.gemini/config/mcp_config.json` ou no `.agents/mcp_config.jso
 
 **Ferramentas disponíveis para o modelo:**
 - `telegram_notify(message, level)`: Envia atualizações de marcos (ex: `"Iniciando bateria de testes"` ou `"Build concluída com sucesso"`).
-- `telegram_ask(question, options, timeout_seconds)`: Pausa a execução do agente, envia a dúvida ao Francisco no Telegram e aguarda a resposta selecionada ou digitada.
+- `telegram_ask(question, options, timeout_seconds)`: Pausa a execução do agente, envia a dúvida ao usuário no Telegram e aguarda a resposta selecionada ou digitada.
 
 ### B. Lifecycle Hooks (`hooks.json`)
 Mesmo que o modelo não chame a ferramenta manualmente, os hooks interceptam eventos automaticamente.
@@ -37,7 +41,7 @@ Crie ou edite `.agents/hooks.json` ou `~/.gemini/config/hooks.json`:
     "Stop": [
       {
         "type": "command",
-        "command": "/home/francisco/Documentos/Projetos/BotTelegram/hooks/on_stop_hook.py"
+        "command": "/caminho/para/BotTelegram/hooks/on_stop_hook.py"
       }
     ],
     "PostToolUse": [
@@ -46,7 +50,7 @@ Crie ou edite `.agents/hooks.json` ou `~/.gemini/config/hooks.json`:
         "hooks": [
           {
             "type": "command",
-            "command": "/home/francisco/Documentos/Projetos/BotTelegram/hooks/on_error_hook.py"
+            "command": "/caminho/para/BotTelegram/hooks/on_error_hook.py"
           }
         ]
       }
@@ -68,7 +72,7 @@ Adicione no arquivo de configuração de MCP do VS Code (geralmente em `.vscode/
 {
   "servers": {
     "teleagent": {
-      "command": "/home/francisco/Documentos/Projetos/BotTelegram/bridge/mcp_server.py"
+      "command": "/caminho/para/BotTelegram/bridge/mcp_server.py"
     }
   }
 }
