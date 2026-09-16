@@ -26,8 +26,7 @@ MCP_TOOLS = [
         "name": "telegram_notify",
         "description": (
             "Envia uma notificação formatada para o Telegram do usuário. "
-            "Use para comunicar marcos do projeto, início/fim de testes"
-        ),
+            "Use para comunicar marcos do projeto, início/fim de testes "
             "ou conclusão de tarefas importantes."
         ),
         "inputSchema": {
